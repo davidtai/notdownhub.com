@@ -1,0 +1,33 @@
+name: ci
+
+# Builds the marketing site. Runs on GitHub-hosted runners and, unmodified,
+# on a notdownhub fleet:
+#   ndh dispatch --server <hub> -W .github/workflows/ci.yml \
+#     --event push --ref refs/heads/main -P ubuntu-latest=-self-hosted
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the site
+        run: npm run build
+
+      - name: Check the build output
+        run: test -f dist/index.html && test -d dist/assets
