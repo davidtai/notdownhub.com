@@ -312,6 +312,45 @@
         </div>
       </section>
 
+      <!-- ─── run the hub on a VM (sincere) ─────────────────── -->
+      <section id="vm" aria-labelledby="vm-h">
+        <div class="wrap">
+          <div data-reveal>
+            <p class="eyebrow">Give the hub a home</p>
+            <h2 class="title" id="vm-h">The hub is one process on one port.</h2>
+            <p class="lede">
+              <code style="font-family: var(--f-mono); color: var(--coral);">ndh hub up</code>
+              is a single process behind a single port, and runners reach it
+              outbound-only. It doesn't need a big machine: the smallest cloud VM runs a
+              hub for a whole team. To keep it up as a background service, follow the
+              operations guide in the source repo.
+            </p>
+          </div>
+
+          <!-- Referral link. Swap this ONE href to change it everywhere. -->
+          <aside class="referral" data-reveal>
+            <p class="referral-tag">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0l-6.4-6.4A2 2 0 0 1 2.8 12.8V4h8.8a2 2 0 0 1 1.4.6l7.6 7.6a2 2 0 0 1 0 2.4z"/><circle cx="7.5" cy="8.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+              Referral link
+            </p>
+            <p class="referral-body">
+              Trying it on a cloud VM? You get $25 in DigitalOcean credit and so do we. A
+              $25 credit covers months of a small hub VM, so it's a good, low-stakes way
+              to try notdownhub on a real machine.
+            </p>
+            <a
+              class="btn btn-primary referral-cta"
+              href="https://m.do.co/c/f23823c4f5b4"
+              rel="sponsored noopener"
+              target="_blank"
+            >
+              Get $25 in DigitalOcean credit
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+            </a>
+          </aside>
+        </div>
+      </section>
+
       <!-- ─── features ──────────────────────────────────────── -->
       <section class="features" id="features" aria-labelledby="feat-h">
         <div class="wrap">
