@@ -72,3 +72,43 @@ if (reduce || !("IntersectionObserver" in window)) {
 
 const yr = document.querySelector("[data-year]");
 if (yr) yr.textContent = String(new Date().getFullYear());
+
+/* ── "days since last GitHub outage" post-it ─────────────────
+   Data: githubstatus.com (Statuspage) public API, CORS-open.
+   Days = full days since the most recent incident resolved;
+   an unresolved incident pins it to 0. Fetch failure → the
+   note simply never appears.                                   */
+
+async function outageDays(): Promise<number | null> {
+  try {
+    const res = await fetch("https://www.githubstatus.com/api/v2/incidents.json");
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      incidents?: { status?: string; impact?: string; resolved_at?: string | null }[];
+    };
+    // "major outage" note: only count incidents GitHub classed major or critical.
+    const incidents = (data.incidents ?? []).filter(
+      (i) => i.impact === "major" || i.impact === "critical",
+    );
+    if (incidents.length === 0) return null;
+    if (incidents.some((i) => i.status !== "resolved" && i.status !== "postmortem")) return 0;
+    const times = incidents
+      .map((i) => (i.resolved_at ? Date.parse(i.resolved_at) : NaN))
+      .filter((t) => Number.isFinite(t));
+    if (times.length === 0) return null;
+    const latest = Math.max(...times);
+    return Math.max(0, Math.floor((Date.now() - latest) / 86_400_000));
+  } catch {
+    return null;
+  }
+}
+
+const postit = document.getElementById("postit");
+if (postit) {
+  outageDays().then((days) => {
+    if (days === null) return;
+    const el = postit.querySelector("[data-outage-days]");
+    if (el) el.textContent = String(days);
+    postit.hidden = false;
+  });
+}

@@ -7,18 +7,84 @@
     <title>notdownhub · CI that doesn't go down</title>
     <meta
       name="description"
-      content="notdownhub runs your existing CI workflow YAMLs on infrastructure you own, from a single laptop to a fleet of your own machines. There's no status page to refresh and no per-minute meter on hardware you already pay for. Open source under MIT."
+      content="notdownhub runs your unmodified GitHub Actions workflow YAMLs on infrastructure you own, from a single laptop to a fleet of your own machines. There's no status page to refresh and no per-minute meter on hardware you already pay for. Open source under MIT."
     />
+    <meta
+      name="keywords"
+      content="self-hosted CI, GitHub Actions, self-hosted runners, CI runner, workflow YAML, open source CI, MIT, continuous integration, actions/runner, runner.server, ndh, notdownhub"
+    />
+    <meta name="author" content="David Tai" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://notdownhub.com/" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#e7eaef" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d0f16" media="(prefers-color-scheme: dark)" />
 
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="notdownhub" />
+    <meta property="og:url" content="https://notdownhub.com/" />
     <meta property="og:title" content="notdownhub · CI that doesn't go down" />
     <meta
       property="og:description"
-      content="Run the workflow YAMLs you already have on machines you already own, with no status page to refresh and no meter on your own electrons."
+      content="GitHub can go down. Your CI doesn't have to. Run your unmodified GitHub Actions workflows on machines you own. Open source under MIT."
     />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://notdownhub.com/og.png" />
+    <meta property="og:image:secure_url" content="https://notdownhub.com/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="notdownhub — GitHub can go down. Your CI doesn't have to. Run your unmodified GitHub Actions workflows on machines you own. Self-hosted CI, MIT."
+    />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@thedavidtai" />
+    <meta name="twitter:creator" content="@thedavidtai" />
+    <meta name="twitter:title" content="notdownhub · CI that doesn't go down" />
+    <meta
+      name="twitter:description"
+      content="GitHub can go down. Your CI doesn't have to. Run your unmodified GitHub Actions workflows on machines you own. Self-hosted CI, MIT."
+    />
+    <meta name="twitter:image" content="https://notdownhub.com/og.png" />
+    <meta
+      name="twitter:image:alt"
+      content="notdownhub — GitHub can go down. Your CI doesn't have to. Self-hosted CI, MIT."
+    />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "notdownhub",
+        "alternateName": "ndh",
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Continuous Integration",
+        "operatingSystem": "macOS, Linux, Windows",
+        "url": "https://notdownhub.com/",
+        "description": "notdownhub runs your unmodified GitHub Actions workflow YAMLs on infrastructure you own, from a single laptop to a fleet of your own machines. Self-hosted CI, open source under MIT.",
+        "image": "https://notdownhub.com/og.png",
+        "license": "https://github.com/davidtai/notdownhub/blob/main/LICENSE",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "David Tai",
+          "url": "https://x.com/thedavidtai"
+        },
+        "sameAs": [
+          "https://github.com/davidtai/notdownhub",
+          "https://x.com/thedavidtai"
+        ]
+      }
+    </script>
 
     <script>
       // Resolve theme before first paint to avoid a flash.
@@ -37,6 +103,20 @@
     </script>
   </head>
   <body>
+    <!-- ─── "days since last GitHub outage" post-it (data: githubstatus.com API, wired in main.ts) ─── -->
+    <a
+      class="postit"
+      id="postit"
+      href="https://www.githubstatus.com/history"
+      target="_blank"
+      rel="noopener noreferrer"
+      hidden
+      aria-label="Days since the last major GitHub outage — see GitHub status history"
+    >
+      <span class="postit-days" data-outage-days>–</span>
+      <span class="postit-caption">days since last<br />major outage</span>
+    </a>
+
     <!-- ─── header ─────────────────────────────────────────── -->
     <header class="site-header">
       <div class="wrap header-row">
@@ -62,6 +142,7 @@
             </g>
           </svg>
           <span><b>notdown</b><span class="dim">hub</span></span>
+          <span class="alpha-tag">alpha</span>
         </a>
 
         <nav class="nav" aria-label="Primary">
@@ -91,7 +172,7 @@
               </svg>
             </button>
           </div>
-          <a class="btn btn-primary" href="#run">Read the docs</a>
+          <a class="btn btn-primary" href="https://github.com/davidtai/notdownhub" target="_blank" rel="noopener">View Source</a>
         </div>
       </div>
     </header>
@@ -114,7 +195,7 @@
               us. So we built one. That's the whole idea.
             </p>
             <div class="hero-cta">
-              <a class="btn btn-primary" href="#run">Read the docs</a>
+              <a class="btn btn-primary" href="https://github.com/davidtai/notdownhub/tree/main/docs" target="_blank" rel="noopener">Read the docs</a>
               <a class="btn btn-ghost" href="#run">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
                 See the commands
@@ -175,8 +256,8 @@
             <p class="eyebrow">The cloud isn't what it used to be</p>
             <h2 class="title" id="problem-h">It's red again.</h2>
             <p class="lede">
-              Somewhere between your and your deploy there's a page that's supposed to say everything's fine. 
-              Today it doesn't and it seems like there's more days like today than yesterday.
+              Somewhere between your push and your deploy there's a page that's supposed to say everything's fine. 
+              Today it doesn't, and it seems like there are more days like today than yesterday.
               Now you've refreshed this page 41 times and your deploy has not moved.
               Why should you feel powerless over that?
             </p>
@@ -250,7 +331,7 @@
                 <article class="jab" data-reveal>
                   <h3>Uptime theater</h3>
                   <p>
-                    They got your business because it used to always say 99.99%
+                    They got your business because it used to always say 99.99%.
                   </p>
                 </article>
                 <article class="jab" data-reveal>
@@ -262,7 +343,7 @@
                 <article class="jab" data-reveal>
                   <h3>Mandatory grass touching</h3>
                   <p>
-                    And its not just your team its your customers and downstream partners are down too!
+                    And it's not just your team &mdash; your customers and downstream partners are down too!
                   </p>
                 </article>
               </div>
@@ -278,7 +359,7 @@
             <p class="eyebrow">Take back control</p>
             <h2 class="title" id="how-h">How it works</h2>
             <p class="lede">
-              Run your workflows on your own machines. notdownhub is the missing piece that talks to the official self hosted action runners.
+              Run your workflows on your own machines. notdownhub is the missing piece that talks to the official self-hosted action runners.
               It adds a caching mirror and a web UI, and it coordinates runners from any 
               machine you own on any repo that you have a copy of.
             </p>
@@ -290,7 +371,7 @@
               <span class="conn" aria-hidden="true">&rarr;</span>
               <span class="cmd"><b>ndh</b> run</span>
               <p>
-                Use the cloud service when its up, then repoint your self hosted runners to notdownhub using a local repo copy of your ci.yaml when its inevitably goes down.
+                Use the cloud service when it's up, then repoint your self-hosted runners to notdownhub using a local repo copy of your ci.yaml when it inevitably goes down.
               </p>
             </article>
             <article class="step" data-reveal>
@@ -298,14 +379,14 @@
               <span class="conn" aria-hidden="true">&rarr;</span>
               <span class="cmd"><b>ndh</b> hub up</span>
               <p>
-                Enable multi-user participation by connecting notdownhub to a local git server and get your team back to work during the down time.
+                Enable multi-user participation by connecting notdownhub to a local git server and get your team back to work during the downtime.
               </p>
             </article>
             <article class="step" data-reveal>
               <span class="num"></span>
               <span class="cmd"><b>ndh</b> runner join</span>
               <p>
-                Or just set it up as a light weight solution to avoid being nickel and dimed on action minutes.
+                Or just set it up as a lightweight solution to avoid being nickel-and-dimed on action minutes.
               </p>
             </article>
           </div>
@@ -320,8 +401,8 @@
             <h2 class="title" id="vm-h">The hub is simple and can run anywhere.</h2>
             <p class="lede">
               <code style="font-family: var(--f-mono); color: var(--coral);">ndh hub up</code>
-              is a single process sitting on a single port.  Its easily secured and runners reach it
-              outbound-only. Set up a simple wire guard or tailscale if you want additional protection and portability.
+              is a single process sitting on a single port. It's easily secured and runners reach it
+              outbound-only. Set up simple WireGuard or Tailscale if you want additional protection and portability.
               It doesn't need a big machine: the smallest cloud VM runs a
               hub for a whole team. To keep it up as a background service, follow the
               operations guide in the source repo.
@@ -357,7 +438,7 @@
         <div class="wrap">
           <div data-reveal>
             <p class="eyebrow">What you actually get</p>
-            <h2 class="title" id="feat-h">A way around overreliance on unreliably providers</h2>
+            <h2 class="title" id="feat-h">A way around overreliance on unreliable providers</h2>
           </div>
 
           <div class="feat-grid">
@@ -374,12 +455,12 @@
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M8 6h8v3a4 4 0 0 1-8 0z" transform="translate(0 0)"/><path d="M9 6V3.5M15 6V3.5M12 13v8"/></svg>
               <h3>One-port hub</h3>
-              <p>UI, API, runner coordination, and the caching mirror all sit behind a single port you choose and control.  Default is a local private portal with basic auth if you want to make it available anywhere.</p>
+              <p>UI, API, runner coordination, and the caching mirror all sit behind a single port you choose and control. Default is a local private portal with basic auth if you want to make it available anywhere.</p>
             </article>
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="1.5"/><path d="M7 8V5.5A1.5 1.5 0 0 1 8.5 4h2A1.5 1.5 0 0 1 12 5.5V8"/><path d="M7 12h.01M11 12h.01M15 12h.01"/></svg>
               <h3>Docker or bare metal</h3>
-              <p><s>Windows</s> (soon I promise), Linux, and OSX jobs can run in a container on Docker, or straight on the host.</p>
+              <p>Windows (probably), Linux, and macOS jobs can run in a container on Docker, or straight on the host.</p>
             </article>
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2.5 5a3 3 0 0 0 5 0z"/><path d="M19 7l-2.5 5a3 3 0 0 0 5 0z"/><path d="M8 21h8"/></svg>
@@ -426,12 +507,12 @@
             <p class="lede">
               notdownhub is a thin CLI (<code style="font-family: var(--f-mono); color: var(--coral);">ndh</code>)
               wrapped around a maintained, MIT-licensed action-protocol server and the
-              official runner codebase. It can run anywhere, supports single repos and 
+              official runner codebase. It can run anywhere, and it supports single repos and 
               git servers if you want collaboration.
             </p>
             <p class="credit">
               Built on <b>runner.server</b> by ChristopherHX, a maintained, MIT-licensed
-              fork of the official runner that does the genuinely hard part. Selfhosted action runners are directly from the cloud provider.
+              fork of the official runner that does the genuinely hard part. Self-hosted action runners are directly from the cloud provider.
               notdownhub adds the packaging and the opinions. Credit where it's due.
             </p>
           </div>
@@ -470,7 +551,11 @@
           </div>
 
           <div class="hero-cta" data-reveal style="margin-top: 1.8rem;">
-            <a class="btn btn-primary" href="#colophon">Get the source &amp; docs</a>
+            <a class="btn btn-primary" href="https://github.com/davidtai/notdownhub" target="_blank" rel="noopener">View Source</a>
+            <a class="btn btn-ghost" href="https://github.com/davidtai/notdownhub" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.5l2.9 6.26 6.6.72-4.9 4.55 1.32 6.47L12 17.25 6.08 20.5 7.4 14.03 2.5 9.48l6.6-.72z"/></svg>
+              Leave a star &mdash; it keeps the balloons up
+            </a>
           </div>
         </div>
       </section>
@@ -522,6 +607,10 @@
         </div>
 
         <div class="wink">
+          <span class="warranty">
+            Alpha software, provided &ldquo;as is&rdquo; without warranty of any kind &mdash;
+            see the <a class="link" href="https://github.com/davidtai/notdownhub/blob/main/LICENSE" rel="noopener">MIT license</a>.
+          </span>
           <span>
             Not affiliated with any CI vendor. <span class="amp">Especially</span> the
             one you're thinking of.
