@@ -524,22 +524,38 @@
         <div class="wrap">
           <div data-reveal>
             <p class="eyebrow">Run it</p>
-            <h2 class="title" id="run-h">Clone the repo and run your own CI.</h2>
+            <h2 class="title" id="run-h">Install it and run your own CI.</h2>
             <p class="lede">
-              Not on a package registry yet, so today the way in is clone and build.
-              Three lines and you're running your own workflows on your own machine.
+              The quickest way in is npm: the package is <code style="font-family: var(--f-mono); color: var(--coral);">notdownhub</code>,
+              the CLI is <code style="font-family: var(--f-mono); color: var(--coral);">ndh</code>.
+              A few lines and you're running your own workflows on your own machine. Prefer to build from source? That's right below.
             </p>
           </div>
 
           <div class="term" data-reveal>
             <div class="term-bar" aria-hidden="true">
-              <i></i><i></i><i></i><span>bash</span>
+              <i></i><i></i><i></i><span>bash&nbsp;·&nbsp;npm</span>
             </div>
             <div class="term-body">
-<pre><span class="pr">$</span> <span class="cmd">pnpm install &amp;&amp; pnpm -r build</span>
-<span class="pr">$</span> <span class="cmd">ndh install</span>      <span class="mut"># one-time: pins the runner stack (~66 MB)</span>
-<span class="pr">$</span> <span class="cmd">ndh run</span>          <span class="mut"># run this repo's workflows, locally, offline-capable</span>
-<span class="pr">$</span> <span class="cmd">ndh hub up</span>       <span class="mut"># later: a persistent hub for the whole team</span></pre>
+<pre><span class="pr">$</span> <span class="cmd">npm install -g notdownhub</span>  <span class="mut"># global install &rarr; the `ndh` CLI</span>
+<span class="pr">$</span> <span class="cmd">ndh install</span>                <span class="mut"># one-time: pins the runner stack (~66 MB)</span>
+<span class="pr">$</span> <span class="cmd">ndh run</span>                    <span class="mut"># run this repo's workflows, locally, offline-capable</span>
+<span class="pr">$</span> <span class="cmd">ndh hub up</span>                 <span class="mut"># later: a persistent hub for the whole team</span>
+
+<span class="mut"># no install? one-shot it:</span>
+<span class="pr">$</span> <span class="cmd">npx notdownhub run</span>         <span class="mut"># or: pnpm dlx notdownhub run</span></pre>
+            </div>
+          </div>
+
+          <p class="eyebrow" data-reveal style="margin-top: 2.2rem;">Or build from source</p>
+          <div class="term" data-reveal style="margin-top: 0.9rem;">
+            <div class="term-bar" aria-hidden="true">
+              <i></i><i></i><i></i><span>bash&nbsp;·&nbsp;from source</span>
+            </div>
+            <div class="term-body">
+<pre><span class="pr">$</span> <span class="cmd">git clone https://github.com/davidtai/notdownhub &amp;&amp; cd notdownhub</span>
+<span class="pr">$</span> <span class="cmd">pnpm install &amp;&amp; pnpm -r build</span>  <span class="mut"># builds the `ndh` CLI locally</span>
+<span class="pr">$</span> <span class="cmd">ndh run</span>                        <span class="mut"># same commands as above from here</span></pre>
             </div>
           </div>
 
