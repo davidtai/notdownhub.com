@@ -1,0 +1,19 @@
+{
+  "name": "notdownhub.com",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Marketing site for notdownhub — served at notdownhub.com",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.6.3",
+    "vite": "^6.3.5"
+  }
+}

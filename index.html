@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en" data-theme-pref="system">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>notdownhub — CI that doesn't go down</title>
+    <meta
+      name="description"
+      content="notdownhub runs your existing CI workflow YAMLs on infrastructure you own. No status page, no per-minute meter on machines you already pay for. One command locally, or a fleet across your own boxes. MIT, open source."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#e7eaef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0f16" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:title" content="notdownhub — CI that doesn't go down" />
+    <meta
+      property="og:description"
+      content="Run the workflow YAMLs you already have on machines you already own. No status page to refresh. No meter on your own electrons."
+    />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      // Resolve theme before first paint to avoid a flash.
+      (function () {
+        document.documentElement.classList.add("js");
+        try {
+          var t = localStorage.getItem("theme") || "system";
+          var dark =
+            t === "dark" ||
+            (t === "system" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+          document.documentElement.dataset.themePref = t;
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- ─── header ─────────────────────────────────────────── -->
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href="#top" aria-label="notdownhub home">
+          <svg viewBox="0 0 64 82" fill="none" aria-hidden="true">
+            <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <path d="M14.5 24 Q 15 37 17 48" />
+              <path d="M32 22.5 L 32 48" />
+              <path d="M49.5 24 Q 49 37 47 48" />
+            </g>
+            <g fill="currentColor">
+              <ellipse cx="14.5" cy="16" rx="7.7" ry="8.4" />
+              <path d="M13 22.6 L 16 22.6 L 14.5 25.2 Z" />
+              <ellipse cx="49.5" cy="16" rx="7.7" ry="8.4" />
+              <path d="M48 22.6 L 51 22.6 L 49.5 25.2 Z" />
+              <ellipse cx="32" cy="11" rx="8.6" ry="9.4" />
+              <path d="M30.1 20.4 L 33.9 20.4 L 32 23.4 Z" />
+              <rect x="14.5" y="48" width="35" height="23" rx="3.4" />
+              <rect x="29.6" y="71" width="4.8" height="4.4" />
+              <rect x="22.5" y="75" width="19" height="3.6" rx="1.8" />
+            </g>
+          </svg>
+          <span><b>notdown</b><span class="dim">hub</span></span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a href="#problem">The problem</a>
+          <a href="#how">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#run">Run it</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="theme-toggle" role="group" aria-label="Color theme">
+            <button data-pref="light" aria-pressed="false" title="Light" aria-label="Light theme">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="4.2" />
+                <path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6" />
+              </svg>
+            </button>
+            <button data-pref="system" aria-pressed="false" title="System" aria-label="System theme">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="12.5" rx="2" />
+                <path d="M8.5 20.5h7M12 16.5v4" />
+              </svg>
+            </button>
+            <button data-pref="dark" aria-pressed="false" title="Dark" aria-label="Dark theme">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 14.2A8 8 0 1 1 9.8 4 6.4 6.4 0 0 0 20 14.2Z" />
+              </svg>
+            </button>
+          </div>
+          <a class="btn btn-primary" href="#run">Read the docs</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ─── hero ──────────────────────────────────────────── -->
+      <section class="hero wrap" aria-labelledby="hero-h">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">Self-hosted CI &middot; MIT &middot; your machines</p>
+            <h1 id="hero-h">
+              Your CI runner
+              <span class="line2">doesn't get to <span class="accent">go down</span>.</span>
+            </h1>
+            <p class="lede">
+              notdownhub runs the workflow YAMLs you already have on machines you
+              already own — one command on your laptop, or a fleet across your own
+              boxes. Nothing to refresh. Nothing metering the electrons you already
+              pay for.
+            </p>
+            <p class="thesis">
+              We wanted a CI runner that doesn't go down and doesn't nickel-and-dime
+              us. So we built one. That's the whole idea.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="#run">Read the docs</a>
+              <a class="btn btn-ghost" href="#run">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
+                See the commands
+              </a>
+              <span class="pill"><span class="dot"></span> It's MIT</span>
+            </div>
+          </div>
+
+          <div class="hero-art" aria-hidden="true">
+            <div class="altline"><span>ALT &middot; UP</span></div>
+            <svg class="hero-logo" viewBox="0 0 64 82" fill="none" role="img" aria-label="A desktop computer floating on three balloons">
+              <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity="0.85">
+                <path d="M14.5 24 Q 15 37 17 48" />
+                <path d="M32 22.5 L 32 48" />
+                <path d="M49.5 24 Q 49 37 47 48" />
+              </g>
+              <g class="balloons" fill="currentColor">
+                <ellipse cx="14.5" cy="16" rx="7.7" ry="8.4" />
+                <path d="M13 22.6 L 16 22.6 L 14.5 25.2 Z" />
+                <ellipse cx="49.5" cy="16" rx="7.7" ry="8.4" />
+                <path d="M48 22.6 L 51 22.6 L 49.5 25.2 Z" />
+                <ellipse cx="32" cy="11" rx="8.6" ry="9.4" />
+                <path d="M30.1 20.4 L 33.9 20.4 L 32 23.4 Z" />
+              </g>
+              <g fill="currentColor">
+                <rect x="14.5" y="48" width="35" height="23" rx="3.4" />
+                <rect x="29.6" y="71" width="4.8" height="4.4" />
+                <rect x="22.5" y="75" width="19" height="3.6" rx="1.8" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="term" data-reveal style="margin-top: clamp(2.5rem, 5vw, 3.5rem); max-width: 640px;">
+          <div class="term-bar" aria-hidden="true">
+            <i></i><i></i><i></i><span>~/your-repo</span>
+          </div>
+          <div class="term-body">
+<pre><span class="pr">$</span> <span class="cmd">ndh run</span>
+<span class="mut">[ndh]</span> parsing your workflows &mdash; no server, no open ports
+<span class="mut">[ndh]</span> build (node: 20)           <span class="ok">&#10003;</span>  12.4s
+<span class="mut">[ndh]</span> build (node: 22)           <span class="ok">&#10003;</span>  11.9s
+<span class="mut">[ndh]</span> test   <span class="mut">needs: build</span>        <span class="ok">&#10003;</span>   8.1s
+<span class="mut">[ndh]</span> done &mdash; 3 jobs, 0 queued, <span class="ok">0 orange</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── the problem ───────────────────────────────────── -->
+      <section class="problem" id="problem" aria-labelledby="problem-h">
+        <div class="wrap">
+          <div data-reveal>
+            <p class="eyebrow">Meanwhile, in the cloud</p>
+            <h2 class="title" id="problem-h">It's orange again.</h2>
+            <p class="lede">
+              Somewhere between your push and your deploy there is a page that is
+              supposed to say everything's fine. Today it doesn't. You didn't write a
+              bug — you're just downstream of someone else's bad afternoon.
+            </p>
+          </div>
+
+          <div class="problem-grid">
+            <!-- signature: the status-page vignette -->
+            <div class="status-card" data-reveal role="img" aria-label="A parody of a cloud CI status page reporting degraded performance">
+              <div class="status-head">
+                <span>cloud pipeline &middot; status</span>
+                <span class="badge">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v9" stroke-linecap="round"/><circle cx="12" cy="17.5" r="0.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="9"/></svg>
+                  auto-refreshing
+                </span>
+              </div>
+              <div class="status-body">
+                <div class="status-state">
+                  <span class="beacon"></span>
+                  Degraded performance
+                </div>
+                <div class="uptime" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i class="a"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i class="a"></i><i class="r"></i><i class="a"></i><i class="a"></i><i class="r"></i>
+                </div>
+                <div class="uptime-label">
+                  <span>90 days</span>
+                  <span>uptime 99.2% &middot; "four nines" not pictured</span>
+                </div>
+                <div class="incidents">
+                  <div class="incident inv">
+                    <time>14:02</time>
+                    <div>
+                      <b>Investigating</b>
+                      <p>We're aware of elevated wait times for queued jobs and are looking into it.</p>
+                    </div>
+                  </div>
+                  <div class="incident idn">
+                    <time>14:19</time>
+                    <div>
+                      <b>Identified</b>
+                      <p>A subset of runners in one region are affected. Others may see slowness.</p>
+                    </div>
+                  </div>
+                  <div class="incident mon">
+                    <time>14:47</time>
+                    <div>
+                      <b>Monitoring</b>
+                      <p>A fix has been applied and we're watching recovery. Thank you for your patience.</p>
+                    </div>
+                  </div>
+                  <div class="incident">
+                    <time>--:--</time>
+                    <div>
+                      <b>Resolved</b>
+                      <p>You have refreshed this page 41 times. Your deploy has not moved.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p class="status-caption" data-reveal>
+                Your deploy pipeline has a status page. On reflection, that should
+                have been the first warning.
+              </p>
+              <div class="jabs" style="margin-top: 1.4rem;">
+                <article class="jab" data-reveal>
+                  <h3>Uptime theater</h3>
+                  <p>
+                    A green banner is not the same thing as your build running. One of
+                    them you can watch happen; the other you can only hope about.
+                  </p>
+                </article>
+                <article class="jab" data-reveal>
+                  <h3>Metered electrons</h3>
+                  <p>
+                    You bought the machine. You pay the power bill. Somehow the minutes
+                    it spends running your code are also, separately, billable.
+                  </p>
+                </article>
+                <article class="jab" data-reveal>
+                  <h3>Queue purgatory</h3>
+                  <p>
+                    Your code is done compiling in your head. It's just waiting in line
+                    behind everyone else's, on a computer you will never meet.
+                  </p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── how it works ──────────────────────────────────── -->
+      <section id="how" aria-labelledby="how-h">
+        <div class="wrap">
+          <div data-reveal>
+            <p class="eyebrow">From laptop to fleet</p>
+            <h2 class="title" id="how-h">Three commands. No forge to stand up.</h2>
+            <p class="lede">
+              Start where you are — one repo, one machine — and grow to as many
+              runners as you own. Same tool, same YAMLs, the whole way up.
+            </p>
+          </div>
+
+          <div class="steps">
+            <article class="step" data-reveal>
+              <span class="num"></span>
+              <span class="conn" aria-hidden="true">&rarr;</span>
+              <span class="cmd"><b>ndh</b> run</span>
+              <p>
+                Run this repo's workflows locally, one shot. Everything spins up
+                in-process, runs, and exits. No server, nothing exposed.
+              </p>
+            </article>
+            <article class="step" data-reveal>
+              <span class="num"></span>
+              <span class="conn" aria-hidden="true">&rarr;</span>
+              <span class="cmd"><b>ndh</b> hub up</span>
+              <p>
+                Stand up a coordination hub on one port you own: web UI, API, and a
+                caching mirror for the actions your workflows pull.
+              </p>
+            </article>
+            <article class="step" data-reveal>
+              <span class="num"></span>
+              <span class="cmd"><b>ndh</b> runner join</span>
+              <p>
+                Point runners at the hub from any machine, even behind NAT. They
+                long-poll outbound, so there are no inbound ports to open.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── features ──────────────────────────────────────── -->
+      <section class="features" id="features" aria-labelledby="feat-h">
+        <div class="wrap">
+          <div data-reveal>
+            <p class="eyebrow">What you actually get</p>
+            <h2 class="title" id="feat-h">Boring where it counts. Yours everywhere else.</h2>
+          </div>
+
+          <div class="feat-grid">
+            <article class="feat" data-reveal>
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+              <h3>Unmodified workflow YAMLs</h3>
+              <p>The standard workflows format, byte-for-byte. Same matrix, same needs: graph, same marketplace actions and runs-on labels.</p>
+            </article>
+            <article class="feat" data-reveal>
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .3-9 6 6 0 0 0-11.4-1.6"/><path d="M6 11a4 4 0 0 0-.5 8"/><path d="M3 3l18 18"/></svg>
+              <h3>Offline after warm-up</h3>
+              <p>The hub caches every action the first time it's used. Pull the network cable and your CI keeps running from the mirror.</p>
+            </article>
+            <article class="feat" data-reveal>
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/><path d="M8 12h8M12 9l3 3-3 3"/></svg>
+              <h3>NAT-friendly fleets</h3>
+              <p>Runners dial out and long-poll. No inbound ports, no port-forwarding, no public IP — a laptop on hotel wifi can join.</p>
+            </article>
+            <article class="feat" data-reveal>
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M8 6h8v3a4 4 0 0 1-8 0z" transform="translate(0 0)"/><path d="M9 6V3.5M15 6V3.5M12 13v8"/></svg>
+              <h3>One-port hub</h3>
+              <p>UI, API, runner coordination, and the caching mirror all sit behind a single port you choose and control.</p>
+            </article>
+            <article class="feat" data-reveal>
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="11" rx="1.5"/><path d="M7 8V5.5A1.5 1.5 0 0 1 8.5 4h2A1.5 1.5 0 0 1 12 5.5V8"/><path d="M7 12h.01M11 12h.01M15 12h.01"/></svg>
+              <h3>Docker or bare metal</h3>
+              <p>Linux jobs run in a container when Docker's around, or straight on the host when it isn't. You decide the mapping.</p>
+            </article>
+            <article class="feat" data-reveal>
+              <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2.5 5a3 3 0 0 0 5 0z"/><path d="M19 7l-2.5 5a3 3 0 0 0 5 0z"/><path d="M8 21h8"/></svg>
+              <h3>MIT, all of it</h3>
+              <p>Open source, top to bottom — CLI, hub, UI, mirror. Read it, fork it, run it forever. There is no invoice tier.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── what it actually is ───────────────────────────── -->
+      <section class="honest" aria-labelledby="honest-h">
+        <div class="wrap">
+          <div data-reveal>
+            <p class="eyebrow">No magic, on purpose</p>
+            <h2 class="title" id="honest-h">What it actually is</h2>
+            <p class="lede">
+              notdownhub is a thin CLI — <code style="font-family: var(--f-mono); color: var(--coral);">ndh</code> —
+              wrapped around a maintained, MIT-licensed action-protocol server and the
+              official runner codebase. It doesn't reimplement the workflow engine; that
+              is precisely the point. Your matrix, your needs: graph, and your marketplace
+              actions run with full fidelity, because the thing running them is the same
+              engine you already trust. We just arranged it to live on your hardware and
+              stay up.
+            </p>
+            <p class="credit">
+              Built on the excellent, MIT-licensed <b>runner.server</b> by ChristopherHX
+              — itself a fork of the official runner — which does the genuinely hard part.
+              notdownhub is the packaging and the opinions. Credit where it is due.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── run it ────────────────────────────────────────── -->
+      <section class="runit" id="run" aria-labelledby="run-h">
+        <div class="wrap">
+          <div data-reveal>
+            <p class="eyebrow">Run it</p>
+            <h2 class="title" id="run-h">Clone it, build it, run your CI.</h2>
+            <p class="lede">
+              Not on a package registry yet, so today the way in is clone and build.
+              Three lines and you're running your own workflows on your own machine.
+            </p>
+          </div>
+
+          <div class="term" data-reveal>
+            <div class="term-bar" aria-hidden="true">
+              <i></i><i></i><i></i><span>bash</span>
+            </div>
+            <div class="term-body">
+<pre><span class="pr">$</span> <span class="cmd">pnpm install &amp;&amp; pnpm -r build</span>
+<span class="pr">$</span> <span class="cmd">ndh install</span>      <span class="mut"># one-time: pins the runner stack (~66 MB)</span>
+<span class="pr">$</span> <span class="cmd">ndh run</span>          <span class="mut"># run this repo's workflows, locally, offline-capable</span>
+<span class="pr">$</span> <span class="cmd">ndh hub up</span>       <span class="mut"># later: a persistent hub for the whole team</span></pre>
+            </div>
+          </div>
+
+          <div class="meta" data-reveal>
+            <span>Node 20+ to run</span>
+            <span>macOS, Linux, Windows</span>
+            <span>x64 or arm64</span>
+            <span>Everything lives in one MIT repo</span>
+          </div>
+
+          <div class="hero-cta" data-reveal style="margin-top: 1.8rem;">
+            <a class="btn btn-primary" href="#colophon">Get the source &amp; docs</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ─── footer ──────────────────────────────────────────── -->
+    <footer class="site-footer" id="colophon">
+      <div class="wrap">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <a class="brand" href="#top" aria-label="notdownhub home">
+              <svg viewBox="0 0 64 82" fill="none" aria-hidden="true">
+                <g stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+                  <path d="M14.5 24 Q 15 37 17 48" />
+                  <path d="M32 22.5 L 32 48" />
+                  <path d="M49.5 24 Q 49 37 47 48" />
+                </g>
+                <g fill="currentColor">
+                  <ellipse cx="14.5" cy="16" rx="7.7" ry="8.4" />
+                  <path d="M13 22.6 L 16 22.6 L 14.5 25.2 Z" />
+                  <ellipse cx="49.5" cy="16" rx="7.7" ry="8.4" />
+                  <path d="M48 22.6 L 51 22.6 L 49.5 25.2 Z" />
+                  <ellipse cx="32" cy="11" rx="8.6" ry="9.4" />
+                  <path d="M30.1 20.4 L 33.9 20.4 L 32 23.4 Z" />
+                  <rect x="14.5" y="48" width="35" height="23" rx="3.4" />
+                  <rect x="29.6" y="71" width="4.8" height="4.4" />
+                  <rect x="22.5" y="75" width="19" height="3.6" rx="1.8" />
+                </g>
+              </svg>
+              <span><b>notdown</b><span class="dim">hub</span></span>
+            </a>
+            <p>CI that stays up, on hardware you own. Your workflow YAMLs, unmodified, wherever your machines are.</p>
+          </div>
+
+          <nav class="footer-links" aria-label="Footer">
+            <a class="link" href="https://github.com/davidtai/notdownhub">source code</a>
+            <span>MIT licensed</span>
+            <a href="#top">Back to top</a>
+          </nav>
+        </div>
+
+        <div class="wink">
+          <span>
+            Not affiliated with any CI vendor. <span class="amp">Especially</span> the
+            one you're thinking of.
+          </span>
+          <span>&copy; <span data-year>2026</span> notdownhub &middot; MIT</span>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
