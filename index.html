@@ -528,7 +528,7 @@
             <p class="lede">
               The quickest way in is npm: the package is <code style="font-family: var(--f-mono); color: var(--coral);">notdownhub</code>,
               the CLI is <code style="font-family: var(--f-mono); color: var(--coral);">ndh</code>.
-              A few lines and you're running your own workflows on your own machine. Prefer to build from source? That's right below.
+              Two commands and you're running your own workflows on your own machine. Prefer to build from source? That's right below.
             </p>
           </div>
 
@@ -537,10 +537,8 @@
               <i></i><i></i><i></i><span>bash&nbsp;·&nbsp;npm</span>
             </div>
             <div class="term-body">
-<pre><span class="pr">$</span> <span class="cmd">npm install -g notdownhub</span>  <span class="mut"># global install &rarr; the `ndh` CLI</span>
-<span class="pr">$</span> <span class="cmd">ndh install</span>                <span class="mut"># one-time: pins the runner stack (~66 MB)</span>
-<span class="pr">$</span> <span class="cmd">ndh run</span>                    <span class="mut"># run this repo's workflows, locally, offline-capable</span>
-<span class="pr">$</span> <span class="cmd">ndh hub up</span>                 <span class="mut"># later: a persistent hub for the whole team</span>
+<pre><span class="pr">$</span> <span class="cmd">npm install -g notdownhub</span>  <span class="mut"># installs the `ndh` CLI</span>
+<span class="pr">$</span> <span class="cmd">ndh run</span>                    <span class="mut"># runs this repo's workflows locally (pulls the runner stack on first run)</span>
 
 <span class="mut"># no install? one-shot it:</span>
 <span class="pr">$</span> <span class="cmd">npx notdownhub run</span>         <span class="mut"># or: pnpm dlx notdownhub run</span></pre>
