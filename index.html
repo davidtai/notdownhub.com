@@ -4,28 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <title>notdownhub — CI that doesn't go down</title>
+    <title>notdownhub · CI that doesn't go down</title>
     <meta
       name="description"
-      content="notdownhub runs your existing CI workflow YAMLs on infrastructure you own. No status page, no per-minute meter on machines you already pay for. One command locally, or a fleet across your own boxes. MIT, open source."
+      content="notdownhub runs your existing CI workflow YAMLs on infrastructure you own, from a single laptop to a fleet of your own machines. There's no status page to refresh and no per-minute meter on hardware you already pay for. Open source under MIT."
     />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#e7eaef" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d0f16" media="(prefers-color-scheme: dark)" />
 
-    <meta property="og:title" content="notdownhub — CI that doesn't go down" />
+    <meta property="og:title" content="notdownhub · CI that doesn't go down" />
     <meta
       property="og:description"
-      content="Run the workflow YAMLs you already have on machines you already own. No status page to refresh. No meter on your own electrons."
+      content="Run the workflow YAMLs you already have on machines you already own, with no status page to refresh and no meter on your own electrons."
     />
     <meta property="og:type" content="website" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
 
     <script>
       // Resolve theme before first paint to avoid a flash.
@@ -113,9 +106,9 @@
             </h1>
             <p class="lede">
               notdownhub runs the workflow YAMLs you already have on machines you
-              already own — one command on your laptop, or a fleet across your own
-              boxes. Nothing to refresh. Nothing metering the electrons you already
-              pay for.
+              already own: one command on your laptop, or a fleet across your own
+              boxes. There's no status page to refresh, and no meter running on the
+              electrons you already pay for.
             </p>
             <p class="thesis">
               We wanted a CI runner that doesn't go down and doesn't nickel-and-dime
@@ -162,11 +155,11 @@
           </div>
           <div class="term-body">
 <pre><span class="pr">$</span> <span class="cmd">ndh run</span>
-<span class="mut">[ndh]</span> parsing your workflows &mdash; no server, no open ports
+<span class="mut">[ndh]</span> parsing workflows in ./  (no server, no open ports)
 <span class="mut">[ndh]</span> build (node: 20)           <span class="ok">&#10003;</span>  12.4s
 <span class="mut">[ndh]</span> build (node: 22)           <span class="ok">&#10003;</span>  11.9s
 <span class="mut">[ndh]</span> test   <span class="mut">needs: build</span>        <span class="ok">&#10003;</span>   8.1s
-<span class="mut">[ndh]</span> done &mdash; 3 jobs, 0 queued, <span class="ok">0 orange</span></pre>
+<span class="mut">[ndh]</span> done: 3 jobs, 0 queued, <span class="ok">0 orange</span></pre>
           </div>
         </div>
       </section>
@@ -178,9 +171,9 @@
             <p class="eyebrow">Meanwhile, in the cloud</p>
             <h2 class="title" id="problem-h">It's orange again.</h2>
             <p class="lede">
-              Somewhere between your push and your deploy there is a page that is
-              supposed to say everything's fine. Today it doesn't. You didn't write a
-              bug — you're just downstream of someone else's bad afternoon.
+              Somewhere between your push and your deploy there's a page whose job is
+              to say everything's fine. Today it doesn't. You didn't write a bug;
+              you're downstream of someone else's bad afternoon.
             </p>
           </div>
 
@@ -266,8 +259,8 @@
                 <article class="jab" data-reveal>
                   <h3>Queue purgatory</h3>
                   <p>
-                    Your code is done compiling in your head. It's just waiting in line
-                    behind everyone else's, on a computer you will never meet.
+                    Your code is done compiling in your head. It's waiting in line
+                    behind everyone else's, on a computer you'll never meet.
                   </p>
                 </article>
               </div>
@@ -283,8 +276,8 @@
             <p class="eyebrow">From laptop to fleet</p>
             <h2 class="title" id="how-h">Three commands. No forge to stand up.</h2>
             <p class="lede">
-              Start where you are — one repo, one machine — and grow to as many
-              runners as you own. Same tool, same YAMLs, the whole way up.
+              Start with one repo on one machine, then grow to as many runners as you
+              own. The tool doesn't change, and neither do your YAMLs.
             </p>
           </div>
 
@@ -331,7 +324,7 @@
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
               <h3>Unmodified workflow YAMLs</h3>
-              <p>The standard workflows format, byte-for-byte. Same matrix, same needs: graph, same marketplace actions and runs-on labels.</p>
+              <p>The standard workflows format, unchanged. Your matrix runs, your needs graph resolves, and the marketplace actions and runs-on labels behave exactly as written.</p>
             </article>
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .3-9 6 6 0 0 0-11.4-1.6"/><path d="M6 11a4 4 0 0 0-.5 8"/><path d="M3 3l18 18"/></svg>
@@ -341,7 +334,7 @@
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4"/><path d="M8 12h8M12 9l3 3-3 3"/></svg>
               <h3>NAT-friendly fleets</h3>
-              <p>Runners dial out and long-poll. No inbound ports, no port-forwarding, no public IP — a laptop on hotel wifi can join.</p>
+              <p>Runners dial out and long-poll, so there's nothing to forward and no public IP to arrange. A laptop on hotel wifi can join a hub back at the office.</p>
             </article>
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M8 6h8v3a4 4 0 0 1-8 0z" transform="translate(0 0)"/><path d="M9 6V3.5M15 6V3.5M12 13v8"/></svg>
@@ -356,7 +349,7 @@
             <article class="feat" data-reveal>
               <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 7h14"/><path d="M5 7l-2.5 5a3 3 0 0 0 5 0z"/><path d="M19 7l-2.5 5a3 3 0 0 0 5 0z"/><path d="M8 21h8"/></svg>
               <h3>MIT, all of it</h3>
-              <p>Open source, top to bottom — CLI, hub, UI, mirror. Read it, fork it, run it forever. There is no invoice tier.</p>
+              <p>Open source all the way down: the CLI, the hub, the UI, and the mirror. Fork it and run it for as long as you like. There is no invoice tier.</p>
             </article>
           </div>
         </div>
@@ -369,18 +362,17 @@
             <p class="eyebrow">No magic, on purpose</p>
             <h2 class="title" id="honest-h">What it actually is</h2>
             <p class="lede">
-              notdownhub is a thin CLI — <code style="font-family: var(--f-mono); color: var(--coral);">ndh</code> —
+              notdownhub is a thin CLI (<code style="font-family: var(--f-mono); color: var(--coral);">ndh</code>)
               wrapped around a maintained, MIT-licensed action-protocol server and the
-              official runner codebase. It doesn't reimplement the workflow engine; that
-              is precisely the point. Your matrix, your needs: graph, and your marketplace
-              actions run with full fidelity, because the thing running them is the same
-              engine you already trust. We just arranged it to live on your hardware and
-              stay up.
+              official runner codebase. It doesn't reimplement the workflow engine, by
+              design. Your matrix, needs graph, and marketplace actions run with full
+              fidelity, because the engine running them is the one you already trust. We
+              arranged that engine to live on your hardware and stay up.
             </p>
             <p class="credit">
-              Built on the excellent, MIT-licensed <b>runner.server</b> by ChristopherHX
-              — itself a fork of the official runner — which does the genuinely hard part.
-              notdownhub is the packaging and the opinions. Credit where it is due.
+              Built on <b>runner.server</b> by ChristopherHX, a maintained, MIT-licensed
+              fork of the official runner that does the genuinely hard part. notdownhub
+              adds the packaging and the opinions. Credit where it's due.
             </p>
           </div>
         </div>
@@ -391,7 +383,7 @@
         <div class="wrap">
           <div data-reveal>
             <p class="eyebrow">Run it</p>
-            <h2 class="title" id="run-h">Clone it, build it, run your CI.</h2>
+            <h2 class="title" id="run-h">Clone the repo and run your own CI.</h2>
             <p class="lede">
               Not on a package registry yet, so today the way in is clone and build.
               Three lines and you're running your own workflows on your own machine.
@@ -455,6 +447,10 @@
 
           <nav class="footer-links" aria-label="Footer">
             <a class="link" href="https://github.com/davidtai/notdownhub">source code</a>
+            <a class="social" href="https://x.com/thedavidtai" aria-label="David Tai on X">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              @thedavidtai
+            </a>
             <span>MIT licensed</span>
             <a href="#top">Back to top</a>
           </nav>
