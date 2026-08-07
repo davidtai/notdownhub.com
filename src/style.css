@@ -1002,3 +1002,21 @@ html.js [data-reveal].in {
     transition: none;
   }
 }
+
+/* 6th feature cell: brand mark filling the empty grid slot */
+.feat-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feat-logo svg {
+  width: clamp(72px, 9vw, 104px);
+  height: auto;
+  color: var(--fg-muted);
+}
+.feat-logo .balloons {
+  color: var(--coral);
+}
+.feat-logo .hl {
+  fill: var(--bg-2);
+}
