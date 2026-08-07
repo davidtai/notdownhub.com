@@ -425,6 +425,10 @@ a {
 .hero-logo .balloons {
   color: var(--coral);
 }
+/* highlight dots: page-bg fill reads as a shine on the coral balloons */
+.hero-logo .hl {
+  fill: var(--bg);
+}
 @keyframes float {
   0%,
   100% {
